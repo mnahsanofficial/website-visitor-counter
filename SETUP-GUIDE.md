@@ -77,3 +77,9 @@ If you get errors:
 ## Ready to Use!
 
 Your package is now configured with your actual Supabase credentials and ready to use in production! 🎉
+
+## 🔗 **Package Links**
+
+- 📦 **NPM Package**: [https://www.npmjs.com/package/website-visitor-counter](https://www.npmjs.com/package/website-visitor-counter)
+- 🐙 **GitHub Repository**: [https://github.com/mnahsanofficial/website-visitor-counter](https://github.com/mnahsanofficial/website-visitor-counter)
+- 📚 **Full Documentation**: [https://github.com/mnahsanofficial/website-visitor-counter#readme](https://github.com/mnahsanofficial/website-visitor-counter#readme)

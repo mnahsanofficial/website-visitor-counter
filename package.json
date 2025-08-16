@@ -1,6 +1,6 @@
 {
   "name": "website-visitor-counter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple package to count unique website visitors using Supabase storage",
   "main": "dist/index.js",
   "type": "module",
@@ -43,10 +43,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/website-visitor-counter.git"
+    "url": "https://github.com/mnahsanofficial/website-visitor-counter.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/website-visitor-counter/issues"
+    "url": "https://github.com/mnahsanofficial/website-visitor-counter/issues"
   },
-  "homepage": "https://github.com/yourusername/website-visitor-counter#readme"
+  "homepage": "https://github.com/mnahsanofficial/website-visitor-counter#readme"
 }

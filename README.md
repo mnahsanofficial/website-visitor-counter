@@ -17,6 +17,9 @@ A simple and privacy-focused NPM package to count unique website visitors using 
 npm install website-visitor-counter
 ```
 
+📦 **NPM Package**: [https://www.npmjs.com/package/website-visitor-counter](https://www.npmjs.com/package/website-visitor-counter)  
+🐙 **GitHub Repository**: [https://github.com/mnahsanofficial/website-visitor-counter](https://github.com/mnahsanofficial/website-visitor-counter)
+
 ## Supabase Setup
 
 ### 1. Create a Supabase Project
@@ -196,8 +199,13 @@ MIT License - see the [LICENSE](LICENSE) file for details.
 
 If you encounter any issues or have questions, please:
 1. Check the [Supabase documentation](https://supabase.com/docs)
-2. Open an issue on GitHub
+2. Open an issue on [GitHub](https://github.com/mnahsanofficial/website-visitor-counter/issues)
 3. Ensure your Supabase credentials are correct
+
+🔗 **Links**:
+- 📦 [NPM Package](https://www.npmjs.com/package/website-visitor-counter)
+- 🐙 [GitHub Repository](https://github.com/mnahsanofficial/website-visitor-counter)
+- 📚 [Documentation](https://github.com/mnahsanofficial/website-visitor-counter#readme)
 
 ## Changelog
 
