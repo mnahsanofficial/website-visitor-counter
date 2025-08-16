@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Visitor Counter - Browser Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .visitor-count {
+            text-align: center;
+            font-size: 4em;
+            font-weight: bold;
+            margin: 30px 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .status {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        
+        .status.loading {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid rgba(255, 193, 7, 0.5);
+        }
+        
+        .status.success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+        }
+        
+        .status.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+        }
+        
+        .config-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .info h3 {
+            margin-top: 0;
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Website Visitor Counter</h1>
+        
+        <div class="visitor-count" id="visitor-count">-</div>
+        
+        <div class="status" id="status">Ready to count visitors</div>
+        
+        <div class="config-section">
+            <h3>⚙️ Configuration</h3>
+            <div class="form-group">
+                <label for="projectId">Project ID:</label>
+                <input type="text" id="projectId" placeholder="e.g., my-website" value="demo-website">
+            </div>
+            
+            <div class="form-group">
+                <label for="supabaseUrl">Supabase URL:</label>
+                <input type="url" id="supabaseUrl" placeholder="https://yourproject.supabase.co">
+            </div>
+            
+            <div class="form-group">
+                <label for="supabaseKey">Supabase Anon Key:</label>
+                <input type="text" id="supabaseKey" placeholder="Your Supabase anonymous key">
+            </div>
+            
+            <button onclick="getCount()" id="countButton">🚀 Get Visitor Count</button>
+        </div>
+        
+        <div class="info">
+            <h3>📋 How to use:</h3>
+            <ol>
+                <li>Set up a Supabase project at <a href="https://supabase.com" target="_blank" style="color: #ffd700;">supabase.com</a></li>
+                <li>Create the visitors table using the SQL from the README</li>
+                <li>Enter your Supabase credentials above</li>
+                <li>Click "Get Visitor Count" to test</li>
+            </ol>
+        </div>
+        
+        <div class="info">
+            <h3>🔒 Privacy Features:</h3>
+            <ul>
+                <li>Visitor IPs are automatically hashed using SHA-256</li>
+                <li>No personal data is stored</li>
+                <li>Each visitor is only counted once per project</li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="module">
+        // This would normally import from the npm package
+        // For demo purposes, we'll simulate the function
+        
+        async function getVisitorCount(projectId, supabaseUrl, supabaseKey) {
+            // Simulate the actual package function
+            // In real usage, this would be: import { getVisitorCount } from 'website-visitor-counter';
+            
+            if (!projectId || !supabaseUrl || !supabaseKey) {
+                throw new Error('All parameters are required');
+            }
+            
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Simulate getting a visitor count
+            // In reality, this would call the actual package function
+            const mockCount = Math.floor(Math.random() * 100) + 1;
+            
+            return mockCount;
+        }
+        
+        // Make function globally available
+        window.getVisitorCount = getVisitorCount;
+    </script>
+    
+    <script>
+        async function getCount() {
+            const projectId = document.getElementById('projectId').value;
+            const supabaseUrl = document.getElementById('supabaseUrl').value;
+            const supabaseKey = document.getElementById('supabaseKey').value;
+            
+            const statusEl = document.getElementById('status');
+            const countEl = document.getElementById('visitor-count');
+            const buttonEl = document.getElementById('countButton');
+            
+            // Validate inputs
+            if (!projectId || !supabaseUrl || !supabaseKey) {
+                statusEl.textContent = 'Please fill in all fields';
+                statusEl.className = 'status error';
+                return;
+            }
+            
+            // Update UI
+            statusEl.textContent = 'Loading visitor count...';
+            statusEl.className = 'status loading';
+            countEl.textContent = '...';
+            buttonEl.disabled = true;
+            
+            try {
+                const count = await getVisitorCount(projectId, supabaseUrl, supabaseKey);
+                
+                countEl.textContent = count;
+                statusEl.textContent = `Success! Found ${count} unique visitors`;
+                statusEl.className = 'status success';
+                
+            } catch (error) {
+                countEl.textContent = 'Error';
+                statusEl.textContent = `Error: ${error.message}`;
+                statusEl.className = 'status error';
+            } finally {
+                buttonEl.disabled = false;
+            }
+        }
+        
+        // Auto-fill demo values for easier testing
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pre-fill with actual Supabase credentials
+            document.getElementById('supabaseUrl').value = 'https://aqxpwgcokzqcppyjoxpu.supabase.co';
+            document.getElementById('supabaseKey').value = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxeHB3Z2Nva3pxY3BweWpveHB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzNjY2NTIsImV4cCI6MjA3MDk0MjY1Mn0.Z4mSyVlN2eMM_wbkbwnkTyxXpy9j76cjK_e_qgmE2Rg';
+        });
+    </script>
+</body>
+</html>
