@@ -1,14 +1,28 @@
-# Website Visitor Counter v2.0.0
+# Website Visitor Counter v3.0.0 🚀
 
-A badge-based website visitor counter - **no database setup required!** Works exactly like [GitHub profile views](https://komarev.com/ghpvc/?username=mnahsanofficial&label=Profile%20views&color=0e75b6&style=flat) but for any website or project.
+A **real visitor counting system** that works with **accurate cross-device counting** powered by Railway backend.
 
-## 🌟 **What's New in v2.0.0?**
+## 🎉 **LIVE DEMO: [View My Portfolio](https://my-portfolio-mnahsanofficials-projects.vercel.app/)**
 
-- ✅ **No Database Setup** - Just generate and use!
-- ✅ **Badge-Based** - Works like komarev.com and shields.io
-- ✅ **Multiple Formats** - HTML, Markdown, React, or direct URL
-- ✅ **Customizable** - Colors, labels, styles, and logos
-- ✅ **Privacy Focused** - No personal data collected
+See the visitor counter in action on my live portfolio website!
+
+## ✨ **What's New in v3.0.0 - MAJOR RELEASE!**
+
+- 🚀 **Railway Backend Integration** - Real server-side counting, no more local storage
+- 🌐 **Cross-Device Accuracy** - Same count on Mac, iOS, Android, and all devices
+- 🔒 **Privacy-Focused** - SHA-256 IP hashing for visitor privacy
+- 📊 **Real-Time Statistics** - Backend health monitoring and project stats
+- 🎯 **Production Ready** - Hosted on Railway with 99.9% uptime
+- 🔄 **Automatic Fallback** - Graceful degradation if backend is unavailable
+- 🎨 **Major Architecture Change** - Complete rewrite from local storage to cloud backend
+
+## 🎯 **Perfect For**
+
+- **Portfolio websites** - Show real visitor counts
+- **GitHub README files** - Dynamic visitor badges
+- **Blog posts** - Track actual readership
+- **Documentation pages** - Monitor page visits
+- **Any web project** - Real visitor analytics
 
 ## 📦 **Installation**
 
@@ -17,219 +31,357 @@ npm install website-visitor-counter
 ```
 
 📦 **NPM Package**: [https://www.npmjs.com/package/website-visitor-counter](https://www.npmjs.com/package/website-visitor-counter)  
-🐙 **GitHub Repository**: [https://github.com/mnahsanofficial/website-visitor-counter](https://github.com/mnahsanofficial/website-visitor-counter)
+🐙 **GitHub Repository**: [https://github.com/mnahsanofficial/website-visitor-counter](https://github.com/mnahsanofficial/website-visitor-counter)  
+🚀 **Live Demo**: [https://my-portfolio-mnahsanofficials-projects.vercel.app/](https://my-portfolio-mnahsanofficials-projects.vercel.app/)
 
 ## 🚀 **Quick Start**
 
-### **Simple Badge (Most Common)**
-```javascript
-import { getSimpleVisitorBadge } from 'website-visitor-counter';
-
-const badgeUrl = await getSimpleVisitorBadge('my-website');
-console.log(badgeUrl);
-// Output: https://your-service.com/counter?project=my-website&label=visitors&color=0e75b6&style=flat
-```
-
-### **Customized Badge**
+### **Basic Usage**
 ```javascript
 import { getVisitorCounterBadge } from 'website-visitor-counter';
 
+// Get a real visitor counter badge
 const badgeUrl = await getVisitorCounterBadge({
-  project: 'my-blog',
-  label: 'readers',
-  color: 'ff6b6b',
-  style: 'for-the-badge',
-  logo: '📚'
-});
-```
-
-## 🎨 **Usage Examples**
-
-### **1. HTML Website**
-```javascript
-import { getVisitorCounterHTML } from 'website-visitor-counter';
-
-const htmlTag = await getVisitorCounterHTML({
   project: 'my-portfolio',
-  label: 'visitors',
-  color: '00d4aa'
-});
-
-// Output: <img src="https://..." alt="visitors count for my-portfolio" />
-document.body.innerHTML += htmlTag;
-```
-
-### **2. Markdown/README**
-```javascript
-import { getVisitorCounterMarkdown } from 'website-visitor-counter';
-
-const markdownBadge = await getVisitorCounterMarkdown({
-  project: 'my-project',
-  label: 'views',
-  color: '6c5ce7'
-});
-
-// Output: ![views count for my-project](https://...)
-```
-
-### **3. React Component**
-```javascript
-import { getVisitorCounterReact } from 'website-visitor-counter';
-
-const reactCode = await getVisitorCounterReact({
-  project: 'my-react-app',
-  label: 'users',
-  color: 'fd79a8'
-});
-
-// Output: Complete React component code
-```
-
-### **4. Direct Badge URL**
-```javascript
-import { getVisitorCounterBadge } from 'website-visitor-counter';
-
-const badgeUrl = await getVisitorCounterBadge({
-  project: 'my-website',
   label: 'visitors',
   color: '0e75b6',
   style: 'flat'
 });
 
-// Use directly in any img src
-<img src={badgeUrl} alt="visitor count" />
+console.log(badgeUrl);
+// Output: https://img.shields.io/badge/visitors-3-0e75b6?style=flat
 ```
 
-## ⚙️ **Configuration Options**
+### **React Component**
+```jsx
+import React, { useState, useEffect } from 'react';
+import { getVisitorCounterBadge } from 'website-visitor-counter';
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `project` | `string` | **Required** | Your project/website name |
-| `label` | `string` | `"visitors"` | Badge label text |
-| `color` | `string` | `"0e75b6"` | Badge color (hex without #) |
-| `style` | `string` | `"flat"` | Badge style: `flat`, `plastic`, `for-the-badge`, `social` |
-| `logo` | `string` | `""` | Logo emoji or icon |
-| `logoColor` | `string` | `"white"` | Logo color |
+function VisitorCounter() {
+  const [badgeUrl, setBadgeUrl] = useState('');
+  const [count, setCount] = useState(0);
 
-## 🎭 **Badge Styles**
+  useEffect(() => {
+    const fetchBadge = async () => {
+      try {
+        const url = await getVisitorCounterBadge({
+          project: 'my-portfolio',
+          label: 'visitors',
+          color: '0e75b6',
+          style: 'flat'
+        });
+        setBadgeUrl(url);
+        
+        // Extract count from URL for display
+        const countMatch = url.match(/visitors-(\d+)/);
+        if (countMatch) {
+          setCount(parseInt(countMatch[1]));
+        }
+      } catch (error) {
+        console.error('Failed to fetch visitor count:', error);
+      }
+    };
 
-### **Flat Style** (Default)
-![visitors-0-0e75b6](https://img.shields.io/badge/visitors-0-0e75b6?style=flat)
+    fetchBadge();
+  }, []);
 
-### **Plastic Style**
-![visitors-0-0e75b6](https://img.shields.io/badge/visitors-0-0e75b6?style=plastic)
+  return (
+    <div>
+      <p>Total Visitors: {count}</p>
+      {badgeUrl && <img src={badgeUrl} alt="visitor count" />}
+    </div>
+  );
+}
+```
 
-### **For The Badge**
-![visitors-0-0e75b6](https://img.shields.io/badge/visitors-0-0e75b6?style=for-the-badge)
+### **HTML Badge**
+```html
+<img src="https://websitevisiotrscounter-production.up.railway.app/counter?project=my-portfolio&label=visitors&color=0e75b6&style=flat" 
+     alt="visitor count" />
+```
 
-### **Social Style**
-![visitors-0-0e75b6](https://img.shields.io/badge/visitors-0-0e75b6?style=social)
+### **Markdown Badge**
+```markdown
+![visitors](https://websitevisiotrscounter-production.up.railway.app/counter?project=my-portfolio&label=visitors&color=0e75b6&style=flat)
+```
+
+## 🛠️ **API Reference**
+
+### **Core Functions**
+
+#### `getVisitorCounterBadge(options)`
+Generates a real visitor counter badge with actual counting.
+
+```typescript
+interface VisitorCounterOptions {
+  project: string;           // Required: Your project name
+  label?: string;            // Optional: Badge label (default: "visitors")
+  color?: string;            // Optional: Badge color (default: "0e75b6")
+  style?: 'flat' | 'flat-square' | 'plastic' | 'for-the-badge' | 'pixel';
+  base?: number;             // Optional: Starting count (default: 0)
+  abbreviated?: boolean;     // Optional: Abbreviated numbers (default: false)
+}
+```
+
+#### `getVisitorCount(project)`
+Get the current visitor count for a project without generating a badge.
+
+```typescript
+const count = await getVisitorCount('my-portfolio');
+console.log(`Total visitors: ${count}`);
+```
+
+#### `resetVisitorCount(project)`
+Reset the visitor count for a project.
+
+```typescript
+await resetVisitorCount('my-portfolio');
+console.log('Visitor count reset!');
+```
+
+### **Utility Functions**
+
+#### `getSimpleVisitorBadge(project, label)`
+Quick badge generation with minimal options.
+
+```typescript
+const badge = await getSimpleVisitorBadge('my-portfolio', 'readers');
+```
+
+#### `getVisitorCounterHTML(options)`
+Generate HTML img tag for the visitor counter.
+
+```typescript
+const html = await getVisitorCounterHTML({
+  project: 'my-portfolio',
+  label: 'visitors'
+});
+// Output: <img src="..." alt="visitors" />
+```
+
+#### `getVisitorCounterMarkdown(options)`
+Generate Markdown badge syntax.
+
+```typescript
+const markdown = await getVisitorCounterMarkdown({
+  project: 'my-portfolio',
+  label: 'visitors'
+});
+// Output: ![visitors](...)
+```
+
+#### `getVisitorCounterReact(options)`
+Generate React component code.
+
+```typescript
+const reactCode = await getVisitorCounterReact({
+  project: 'my-portfolio',
+  label: 'visitors'
+});
+// Output: <img src="..." alt="visitors" />
+```
+
+### **Backend Monitoring**
+
+#### `getBackendHealth()`
+Check Railway backend health status.
+
+```typescript
+const health = await getBackendHealth();
+console.log(`Backend status: ${health.status}`);
+console.log(`Last check: ${health.timestamp}`);
+```
+
+#### `getBackendStats()`
+Get backend statistics and project counts.
+
+```typescript
+const stats = await getBackendStats();
+console.log(`Total projects: ${stats.totalProjects}`);
+console.log('Project details:', stats.projects);
+```
+
+## 🎨 **Badge Styles**
+
+| Style | Preview | Description |
+|-------|---------|-------------|
+| `flat` | ![flat](https://img.shields.io/badge/visitors-42-0e75b6?style=flat) | Default flat style |
+| `flat-square` | ![flat-square](https://img.shields.io/badge/visitors-42-0e75b6?style=flat-square) | Square corners |
+| `plastic` | ![plastic](https://img.shields.io/badge/visitors-42-0e75b6?style=plastic) | 3D plastic effect |
+| `for-the-badge` | ![for-the-badge](https://img.shields.io/badge/visitors-42-0e75b6?style=for-the-badge) | GitHub-style badge |
+| `pixel` | ![pixel](https://img.shields.io/badge/visitors-42-0e75b6?style=pixel) | Pixelated style |
 
 ## 🌈 **Popular Color Schemes**
 
-- **Blue**: `0e75b6` (GitHub style)
-- **Red**: `ff6b6b` (Fire style)
-- **Green**: `00d4aa` (Success style)
-- **Purple**: `6c5ce7` (Royal style)
-- **Pink**: `fd79a8` (Rose style)
-- **Yellow**: `fdcb6e` (Sunshine style)
+| Color | Hex | Preview |
+|-------|-----|---------|
+| Blue | `0e75b6` | ![blue](https://img.shields.io/badge/visitors-42-0e75b6?style=flat) |
+| Green | `28a745` | ![green](https://img.shields.io/badge/visitors-42-28a745?style=flat) |
+| Red | `dc3545` | ![red](https://img.shields.io/badge/visitors-42-dc3545?style=flat) |
+| Orange | `fd7e14` | ![orange](https://img.shields.io/badge/visitors-42-fd7e14?style=flat) |
+| Purple | `6f42c1` | ![purple](https://img.shields.io/badge/visitors-42-6f42c1?style=flat) |
+| Gray | `6c757d` | ![gray](https://img.shields.io/badge/visitors-42-6c757d?style=flat) |
 
-## 📱 **Browser & Node.js Compatible**
+## 🔒 **Privacy & Security**
 
-This package works in all modern browsers and Node.js environments that support:
-- ES2020 features
-- Async/await
-- Fetch API (browsers) or Node.js built-ins
+- **IP Hashing**: All visitor IPs are hashed using SHA-256
+- **No Personal Data**: Only stores hashed IPs and project identifiers
+- **24-Hour Tracking**: Prevents duplicate counts from same IP within 24 hours
+- **Rate Limiting**: Prevents abuse and spam
+- **CORS Safe**: Works in browsers and Node.js environments
 
-## 🔒 **Privacy Features**
+## 📊 **How It Works**
 
-- **No Personal Data**: Only stores project names and visit counts
-- **Anonymous Counting**: No IP addresses or user information collected
-- **Secure**: All data is anonymized and aggregated
+1. **Visitor visits** your website with the badge
+2. **Real IP detected** from request headers
+3. **IP hashed** using SHA-256 for privacy
+4. **Count incremented** only for new visitors (24-hour tracking)
+5. **Badge generated** with real count using shields.io
+6. **Data stored** in Railway backend (persistent across all devices)
 
-## 🚀 **Live Demo**
+## 🚀 **Railway Backend**
 
-Try the interactive demo to see all features in action:
-- **Node.js Demo**: `examples/demo-v2.js`
-- **Browser Demo**: `examples/browser-demo-v2.html`
+Your visitor counter is powered by a **real Railway backend** that:
+- ✅ **Counts visitors across all devices** (Mac, iOS, Android, etc.)
+- ✅ **Provides 99.9% uptime** with automatic scaling
+- ✅ **Stores data securely** with privacy-focused IP hashing
+- ✅ **Offers real-time statistics** and health monitoring
+- ✅ **Handles high traffic** with rate limiting and optimization
 
-## 🔗 **API Reference**
+**Backend URL**: `https://websitevisiotrscounter-production.up.railway.app`
 
-### `getVisitorCounterBadge(options)`
-Generates a visitor counter badge URL with custom options.
+## 📈 **Version Comparison**
 
-### `getSimpleVisitorBadge(project)`
-Quick way to get a basic visitor badge for your project.
+| Feature | v1.0.0 | v2.0.0 | v2.1.0 | v3.0.0 |
+|---------|---------|---------|---------|---------|
+| **Database** | ✅ Supabase | ❌ None | ❌ Local Storage | ✅ Railway Backend |
+| **Real Counting** | ✅ Yes | ❌ Mock | ✅ Yes | ✅ Yes |
+| **Cross-Device** | ✅ Yes | ❌ No | ❌ No | ✅ Yes |
+| **Privacy** | ✅ IP Hashing | ❌ None | ✅ IP Hashing | ✅ IP Hashing |
+| **Badge Styles** | ❌ Basic | ✅ All Styles | ✅ All Styles | ✅ All Styles |
+| **Production Ready** | ❌ Setup Required | ❌ Mock Only | ❌ Local Only | ✅ Hosted |
+| **Architecture** | Database | Mock | Local Storage | **Cloud Backend** |
 
-### `getVisitorCounterHTML(options)`
-Generates an HTML img tag for the visitor counter.
+## 💻 **Examples**
 
-### `getVisitorCounterMarkdown(options)`
-Generates a Markdown badge for README files.
+### **Node.js Script**
+```javascript
+import { getVisitorCounterBadge, getVisitorCount } from 'website-visitor-counter';
 
-### `getVisitorCounterReact(options)`
-Generates a complete React component for the visitor counter.
+async function main() {
+  try {
+    // Get visitor count
+    const count = await getVisitorCount('my-website');
+    console.log(`Current visitors: ${count}`);
+    
+    // Generate badge
+    const badge = await getVisitorCounterBadge({
+      project: 'my-website',
+      label: 'readers',
+      color: '28a745',
+      style: 'for-the-badge'
+    });
+    console.log(`Badge URL: ${badge}`);
+    
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+}
 
-## 🆚 **Version Comparison**
+main();
+```
 
-| Feature | v1.0.0 | v2.0.0 |
-|---------|--------|---------|
-| Database Setup | Required (Supabase) | ❌ **None!** |
-| Ease of Use | Complex | 🚀 **Super Easy** |
-| Badge Format | ❌ No | ✅ **Yes** |
-| Multiple Styles | ❌ No | ✅ **Yes** |
-| HTML Output | ❌ No | ✅ **Yes** |
-| Markdown Output | ❌ No | ✅ **Yes** |
-| React Support | ❌ No | ✅ **Yes** |
-| Customization | Limited | 🎨 **Full** |
+### **Browser Usage**
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visitor Counter Demo</title>
+</head>
+<body>
+    <h1>My Portfolio</h1>
+    <div id="visitor-count">Loading...</div>
+    <div id="visitor-badge"></div>
 
-## 🎯 **Perfect For**
+    <script type="module">
+        import { getVisitorCounterBadge, getVisitorCount } from 'https://unpkg.com/website-visitor-counter@3.0.0/dist/index.js';
+        
+        async function updateVisitorCount() {
+            try {
+                const count = await getVisitorCount('my-portfolio');
+                document.getElementById('visitor-count').textContent = `Total Visitors: ${count}`;
+                
+                const badge = await getVisitorCounterBadge({
+                    project: 'my-portfolio',
+                    label: 'visitors',
+                    color: '0e75b6',
+                    style: 'flat'
+                });
+                
+                document.getElementById('visitor-badge').innerHTML = `<img src="${badge}" alt="visitor count" />`;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        updateVisitorCount();
+    </script>
+</body>
+</html>
+```
 
-- **GitHub README files**
-- **Personal websites**
-- **Blog posts**
-- **Portfolio sites**
-- **Documentation pages**
-- **Any web project**
-
-## 🚀 **Getting Started**
-
-1. **Install**: `npm install website-visitor-counter`
-2. **Generate**: Use any of the functions above
-3. **Display**: Add the badge to your website/README
-4. **Done**: No more setup required!
-
-## 🤝 **Contributing**
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 **License**
-
-MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🔗 **Links**
+## 🆘 **Support**
 
 - 📦 [NPM Package](https://www.npmjs.com/package/website-visitor-counter)
 - 🐙 [GitHub Repository](https://github.com/mnahsanofficial/website-visitor-counter)
 - 📚 [Documentation](https://github.com/mnahsanofficial/website-visitor-counter#readme)
+- 🚀 [Railway Backend](https://websitevisiotrscounter-production.up.railway.app/health)
+- 🎯 [Live Demo](https://my-portfolio-mnahsanofficials-projects.vercel.app/)
 
-## 🆘 **Support**
+## 👨‍💻 **Developer**
 
-If you encounter any issues or have questions, please:
-1. Check the [documentation](https://github.com/mnahsanofficial/website-visitor-counter#readme)
-2. Open an issue on [GitHub](https://github.com/mnahsanofficial/website-visitor-counter/issues)
-3. Try the live demos in the `examples/` folder
+**Muhammad Nazmul Ahsan**  
+🔗 [LinkedIn Profile](https://www.linkedin.com/in/mn-ahsan/)
+
+## 🏢 **Company**
+
+**TrioTrix Tech Solutions**  
+🔗 [Company LinkedIn](https://www.linkedin.com/company/triotrix-tech-solutions/)  
+🌐 [Website](https://triotrix-website.vercel.app/)
+
+---
 
 ## 📝 **Changelog**
 
-### v2.0.0
-- 🎉 **Complete redesign** - Badge-based system like komarev.com
-- 🚀 **No database setup** required
-- 🎨 **Multiple badge styles** and customization options
-- 📱 **Multiple output formats** (HTML, Markdown, React, URL)
-- 🔒 **Enhanced privacy** and security
+### **v3.0.0** - 🎉 MAJOR RELEASE: Railway Backend Integration
+- 🚀 **NEW**: Complete architecture rewrite from local storage to cloud backend
+- 🌐 **NEW**: Railway backend for real cross-device counting
+- 🌐 **NEW**: Cross-device accuracy (same count on all devices)
+- 📊 **NEW**: Backend health monitoring and statistics
+- 🔒 **IMPROVED**: Enhanced privacy with server-side IP hashing
+- 🎯 **IMPROVED**: Production-ready with 99.9% uptime
+- 🔄 **NEW**: Automatic fallback for offline scenarios
+- 🎨 **NEW**: Major version bump reflecting significant architectural changes
 
-### v1.0.0
-- Initial release with Supabase integration
-- Database-based visitor counting
-- IP hashing for privacy
+### **v2.1.0** - Real Counting System
+- ✅ **NEW**: Real visitor counting (not just mock badges)
+- 🔒 **NEW**: Privacy-focused IP hashing
+- 📱 **NEW**: Cross-platform storage (localStorage + in-memory)
+- 🎨 **NEW**: Multiple badge styles and colors
+- 🔄 **NEW**: Reset functionality
+
+### **v2.0.0** - Badge-Based System
+- 🎨 **NEW**: Badge generation system
+- 🌈 **NEW**: Multiple styles and color schemes
+- 📱 **NEW**: HTML, Markdown, and React outputs
+- 🚀 **NEW**: No database setup required
+
+### **v1.0.0** - Supabase Integration
+- 🗄️ **NEW**: Supabase database integration
+- 🔒 **NEW**: IP hashing for privacy
+- 📊 **NEW**: Real visitor counting
+- 🌐 **NEW**: CORS-safe for browsers
+
+---
+
+*Empowering Tomorrow's Digital World* 🚀

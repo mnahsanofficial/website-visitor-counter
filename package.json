@@ -1,47 +1,41 @@
 {
   "name": "website-visitor-counter",
-  "version": "2.0.0",
-  "description": "A badge-based website visitor counter - no database setup required! Works like GitHub profile views",
+  "version": "3.0.0",
+  "description": "Real visitor counting system with Railway backend - works like komarev.com with accurate cross-device counting",
   "main": "dist/index.js",
   "type": "module",
-  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "default": "./dist/index.js"
-    }
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "node examples/demo.js",
+    "test": "node examples/demo-v3.js",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
     "visitor-counter",
+    "website-analytics",
     "badge",
-    "analytics",
-    "typescript",
-    "website",
-    "tracking",
     "github-profile",
     "komarev",
-    "shields"
+    "shields",
+    "railway",
+    "real-counting",
+    "cross-device",
+    "privacy-focused"
   ],
-  "author": "Your Name",
+  "author": "Muhammad Nazmul Ahsan",
   "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^20.0.0",
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {},
-  "engines": {
-    "node": ">=16.0.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/mnahsanofficial/website-visitor-counter.git"
@@ -49,5 +43,13 @@
   "bugs": {
     "url": "https://github.com/mnahsanofficial/website-visitor-counter/issues"
   },
-  "homepage": "https://github.com/mnahsanofficial/website-visitor-counter#readme"
+  "homepage": "https://github.com/mnahsanofficial/website-visitor-counter#readme",
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
