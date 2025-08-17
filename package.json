@@ -1,6 +1,6 @@
 {
   "name": "website-visitor-counter",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Real visitor counting system with Railway backend - works like komarev.com with accurate cross-device counting",
   "main": "dist/index.js",
   "type": "module",
@@ -19,7 +19,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "node examples/demo-v3.js",
+    "test": "node examples/demo-v3.1.js",
     "prepublishOnly": "npm run build"
   },
   "keywords": [

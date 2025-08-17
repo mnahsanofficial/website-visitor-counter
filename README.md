@@ -1,20 +1,20 @@
-# Website Visitor Counter v3.0.0 🚀
+# Website Visitor Counter v3.1.0 🚀
 
-A **real visitor counting system** that works with **accurate cross-device counting** powered by Railway backend.
+A **multi-platform visitor counting system** with **cloud-agnostic architecture** supporting Railway, Vercel, Netlify, and Cloudflare backends.
 
 ## 🎉 **LIVE DEMO: [View My Portfolio](https://my-portfolio-mnahsanofficials-projects.vercel.app/)**
 
 See the visitor counter in action on my live portfolio website!
 
-## ✨ **What's New in v3.0.0 - MAJOR RELEASE!**
+## ✨ **What's New in v3.1.0 - MULTI-PLATFORM RELEASE!**
 
-- 🚀 **Railway Backend Integration** - Real server-side counting, no more local storage
-- 🌐 **Cross-Device Accuracy** - Same count on Mac, iOS, Android, and all devices
-- 🔒 **Privacy-Focused** - SHA-256 IP hashing for visitor privacy
-- 📊 **Real-Time Statistics** - Backend health monitoring and project stats
-- 🎯 **Production Ready** - Hosted on Railway with 99.9% uptime
-- 🔄 **Automatic Fallback** - Graceful degradation if backend is unavailable
-- 🎨 **Major Architecture Change** - Complete rewrite from local storage to cloud backend
+- 🌐 **Multi-Platform Support** - Railway, Vercel, Netlify, and Cloudflare backends
+- 🔓 **No Vendor Lock-in** - Platform-agnostic architecture with easy switching
+- 🔒 **Enhanced Security** - Proper rate limiting and request fingerprinting
+- 📊 **Environment Configuration** - API URLs in environment variables, not hardcoded
+- 🚀 **Improved Scalability** - Support for high-traffic websites
+- 🔄 **Better Error Handling** - Graceful fallbacks and improved reliability
+- 🎯 **Production Ready** - Multiple deployment options for any cloud platform
 
 ## 🎯 **Perfect For**
 
@@ -34,6 +34,52 @@ npm install website-visitor-counter
 🐙 **GitHub Repository**: [https://github.com/mnahsanofficial/website-visitor-counter](https://github.com/mnahsanofficial/website-visitor-counter)  
 🚀 **Live Demo**: [https://my-portfolio-mnahsanofficials-projects.vercel.app/](https://my-portfolio-mnahsanofficials-projects.vercel.app/)
 
+## 🌐 **Multi-Platform Support**
+
+The package now supports multiple cloud platforms through a flexible adapter system:
+
+### **Supported Platforms**
+- **🚂 Railway** - Default backend (recommended for production)
+- **⚡ Vercel** - Serverless functions with edge caching
+- **🌐 Netlify** - Serverless functions with global CDN
+- **☁️ Cloudflare** - Workers with edge computing
+- **🔧 Custom** - Any custom backend with standard API
+
+### **Platform Selection**
+```javascript
+import { getVisitorCounterBadge } from 'website-visitor-counter';
+
+// Use Railway (default)
+const badge1 = await getVisitorCounterBadge('my-project');
+
+// Use Vercel
+const badge2 = await getVisitorCounterBadge('my-project', { 
+  platform: 'vercel' 
+});
+
+// Use custom backend
+const badge3 = await getVisitorCounterBadge('my-project', { 
+  platform: 'custom',
+  customBaseUrl: 'https://my-backend.com' 
+});
+```
+
+### **Environment Configuration**
+Create a `.env` file (copy from `env.example`):
+```bash
+# Railway Backend
+RAILWAY_API_BASE=https://your-railway-app.up.railway.app
+
+# Vercel Backend  
+VERCEL_API_BASE=https://your-vercel-app.vercel.app
+
+# Netlify Backend
+NETLIFY_API_BASE=https://your-netlify-app.netlify.app
+
+# Cloudflare Backend
+CLOUDFLARE_API_BASE=https://your-cloudflare-app.pages.dev
+```
+
 ## 🚀 **Quick Start**
 
 ### **Basic Usage**
@@ -41,8 +87,7 @@ npm install website-visitor-counter
 import { getVisitorCounterBadge } from 'website-visitor-counter';
 
 // Get a real visitor counter badge
-const badgeUrl = await getVisitorCounterBadge({
-  project: 'my-portfolio',
+const badgeUrl = await getVisitorCounterBadge('my-portfolio', {
   label: 'visitors',
   color: '0e75b6',
   style: 'flat'
@@ -64,8 +109,7 @@ function VisitorCounter() {
   useEffect(() => {
     const fetchBadge = async () => {
       try {
-        const url = await getVisitorCounterBadge({
-          project: 'my-portfolio',
+        const url = await getVisitorCounterBadge('my-portfolio', {
           label: 'visitors',
           color: '0e75b6',
           style: 'flat'
@@ -224,47 +268,109 @@ console.log('Project details:', stats.projects);
 
 ## 🔒 **Privacy & Security**
 
-- **IP Hashing**: All visitor IPs are hashed using SHA-256
-- **No Personal Data**: Only stores hashed IPs and project identifiers
-- **24-Hour Tracking**: Prevents duplicate counts from same IP within 24 hours
-- **Rate Limiting**: Prevents abuse and spam
-- **CORS Safe**: Works in browsers and Node.js environments
+- **Enhanced Rate Limiting**: Configurable rate limiting per project (10 requests/minute by default)
+- **Request Fingerprinting**: Advanced request validation for security
+- **No Personal Data**: Only anonymous visitor counts are stored
+- **CORS Safe**: Works safely in browsers with proper CORS headers
+- **Platform Security**: Each cloud platform provides its own security features
+- **Environment Variables**: API keys and URLs stored securely in environment files
 
 ## 📊 **How It Works**
 
 1. **Visitor visits** your website with the badge
-2. **Real IP detected** from request headers
-3. **IP hashed** using SHA-256 for privacy
-4. **Count incremented** only for new visitors (24-hour tracking)
-5. **Badge generated** with real count using shields.io
-6. **Data stored** in Railway backend (persistent across all devices)
+2. **Platform adapter** routes request to your chosen cloud backend
+3. **Rate limiting** checks prevent abuse and spam
+4. **Request fingerprinting** validates legitimate requests
+5. **Count incremented** for new visitors with configurable tracking
+6. **Badge generated** with real count using shields.io
+7. **Data stored** in your chosen cloud platform (persistent across all devices)
 
-## 🚀 **Railway Backend**
+## 🚀 **Multi-Platform Backends**
 
-Your visitor counter is powered by a **real Railway backend** that:
+Your visitor counter can be powered by **any cloud platform** through our adapter system:
+
+### **Railway (Default)**
 - ✅ **Counts visitors across all devices** (Mac, iOS, Android, etc.)
 - ✅ **Provides 99.9% uptime** with automatic scaling
-- ✅ **Stores data securely** with privacy-focused IP hashing
+- ✅ **Stores data securely** with enhanced security features
 - ✅ **Offers real-time statistics** and health monitoring
-- ✅ **Handles high traffic** with rate limiting and optimization
 
-**Backend URL**: `https://websitevisiotrscounter-production.up.railway.app`
+### **Vercel**
+- ⚡ **Serverless functions** with edge caching
+- 🌍 **Global CDN** for fast badge delivery
+- 🔄 **Automatic scaling** based on demand
+
+### **Netlify**
+- 🌐 **Serverless functions** with global CDN
+- 🚀 **Easy deployment** from Git repositories
+- 📊 **Built-in analytics** and monitoring
+
+### **Cloudflare**
+- ☁️ **Workers** with edge computing
+- 🌍 **Global edge network** for minimal latency
+- 💰 **Pay-per-use** pricing model
+
+**Default Backend URL**: `https://websitevisiotrscounter-production.up.railway.app`
 
 ## 📈 **Version Comparison**
 
-| Feature | v1.0.0 | v2.0.0 | v2.1.0 | v3.0.0 |
-|---------|---------|---------|---------|---------|
-| **Database** | ✅ Supabase | ❌ None | ❌ Local Storage | ✅ Railway Backend |
-| **Real Counting** | ✅ Yes | ❌ Mock | ✅ Yes | ✅ Yes |
-| **Cross-Device** | ✅ Yes | ❌ No | ❌ No | ✅ Yes |
-| **Privacy** | ✅ IP Hashing | ❌ None | ✅ IP Hashing | ✅ IP Hashing |
-| **Badge Styles** | ❌ Basic | ✅ All Styles | ✅ All Styles | ✅ All Styles |
-| **Production Ready** | ❌ Setup Required | ❌ Mock Only | ❌ Local Only | ✅ Hosted |
-| **Architecture** | Database | Mock | Local Storage | **Cloud Backend** |
+| Feature | v1.0.0 | v2.0.0 | v2.1.0 | v3.0.0 | v3.1.0 |
+|---------|---------|---------|---------|---------|---------|
+| **Database** | ✅ Supabase | ❌ None | ❌ Local Storage | ✅ Railway Backend | ✅ Multi-Platform |
+| **Real Counting** | ✅ Yes | ❌ Mock | ✅ Yes | ✅ Yes | ✅ Yes |
+| **Cross-Device** | ✅ Yes | ❌ No | ❌ No | ✅ Yes | ✅ Yes |
+| **Privacy** | ✅ IP Hashing | ❌ None | ✅ IP Hashing | ✅ IP Hashing | ✅ Enhanced Security |
+| **Badge Styles** | ❌ Basic | ✅ All Styles | ✅ All Styles | ✅ All Styles | ✅ All Styles |
+| **Production Ready** | ❌ Setup Required | ❌ Mock Only | ❌ Local Only | ✅ Hosted | ✅ Multi-Platform |
+| **Architecture** | Database | Mock | Local Storage | Cloud Backend | **Platform Agnostic** |
 
 ## 💻 **Examples**
 
-### **Node.js Script**
+### **Node.js Script (v3.1.0)**
+```javascript
+import { 
+  getVisitorCounterBadge, 
+  getVisitorCount, 
+  getBackendHealth,
+  createPlatformAdapter 
+} from 'website-visitor-counter';
+
+async function main() {
+  try {
+    // Check backend health
+    const isHealthy = await getBackendHealth();
+    console.log(`Backend healthy: ${isHealthy}`);
+    
+    // Get visitor count
+    const count = await getVisitorCount('my-website');
+    console.log(`Current visitors: ${count}`);
+    
+    // Generate badge with Railway (default)
+    const badge1 = await getVisitorCounterBadge('my-website', {
+      label: 'readers',
+      color: '28a745',
+      style: 'for-the-badge'
+    });
+    console.log(`Railway badge: ${badge1}`);
+    
+    // Generate badge with Vercel
+    const badge2 = await getVisitorCounterBadge('my-website', {
+      label: 'readers',
+      color: '28a745',
+      style: 'for-the-badge',
+      platform: 'vercel'
+    });
+    console.log(`Vercel badge: ${badge2}`);
+    
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+}
+
+main();
+```
+
+### **Node.js Script (v3.0.0)**
 ```javascript
 import { getVisitorCounterBadge, getVisitorCount } from 'website-visitor-counter';
 
@@ -275,8 +381,7 @@ async function main() {
     console.log(`Current visitors: ${count}`);
     
     // Generate badge
-    const badge = await getVisitorCounterBadge({
-      project: 'my-website',
+    const badge = await getVisitorCounterBadge('my-website', {
       label: 'readers',
       color: '28a745',
       style: 'for-the-badge'
@@ -304,15 +409,14 @@ main();
     <div id="visitor-badge"></div>
 
     <script type="module">
-        import { getVisitorCounterBadge, getVisitorCount } from 'https://unpkg.com/website-visitor-counter@3.0.0/dist/index.js';
+        import { getVisitorCounterBadge, getVisitorCount } from 'https://unpkg.com/website-visitor-counter@3.1.0/dist/index.js';
         
         async function updateVisitorCount() {
             try {
                 const count = await getVisitorCount('my-portfolio');
                 document.getElementById('visitor-count').textContent = `Total Visitors: ${count}`;
                 
-                const badge = await getVisitorCounterBadge({
-                    project: 'my-portfolio',
+                const badge = await getVisitorCounterBadge('my-portfolio', {
                     label: 'visitors',
                     color: '0e75b6',
                     style: 'flat'
