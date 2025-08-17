@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Visitor Counter v2.0.0 - Badge Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .demo-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .demo-section h3 {
+            margin-top: 0;
+            color: #ffd700;
+            font-size: 1.5em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .badge-preview {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+        
+        .badge-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        
+        .code-output {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            margin: 15px 0;
+        }
+        
+        .info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .info h3 {
+            margin-top: 0;
+            color: #ffd700;
+        }
+        
+        .color-picker {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: border-color 0.2s;
+        }
+        
+        .color-option:hover {
+            border-color: white;
+        }
+        
+        .color-option.selected {
+            border-color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Website Visitor Counter v2.0.0</h1>
+        <div class="subtitle">Badge-based visitor counter - no database setup required!</div>
+        
+        <div class="demo-section">
+            <h3>🎨 Generate Your Visitor Counter Badge</h3>
+            
+            <div class="form-group">
+                <label for="projectName">Project Name:</label>
+                <input type="text" id="projectName" placeholder="e.g., my-awesome-website" value="my-website">
+            </div>
+            
+            <div class="form-group">
+                <label for="badgeLabel">Badge Label:</label>
+                <input type="text" id="badgeLabel" placeholder="e.g., visitors, views, readers" value="visitors">
+            </div>
+            
+            <div class="form-group">
+                <label for="badgeColor">Badge Color:</label>
+                <input type="text" id="badgeColor" placeholder="e.g., 0e75b6, ff6b6b, 00d4aa" value="0e75b6">
+                <div class="color-picker">
+                    <div class="color-option" style="background: #0e75b6;" data-color="0e75b6"></div>
+                    <div class="color-option" style="background: #ff6b6b;" data-color="ff6b6b"></div>
+                    <div class="color-option" style="background: #00d4aa;" data-color="00d4aa"></div>
+                    <div class="color-option" style="background: #6c5ce7;" data-color="6c5ce7"></div>
+                    <div class="color-option" style="background: #fd79a8;" data-color="fd79a8"></div>
+                    <div class="color-option" style="background: #fdcb6e;" data-color="fdcb6e"></div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="badgeStyle">Badge Style:</label>
+                <select id="badgeStyle">
+                    <option value="flat">Flat</option>
+                    <option value="plastic">Plastic</option>
+                    <option value="for-the-badge">For The Badge</option>
+                    <option value="social">Social</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="badgeLogo">Logo (emoji or icon):</label>
+                <input type="text" id="badgeLogo" placeholder="e.g., 🌐, 📊, 👥" value="🌐">
+            </div>
+            
+            <button onclick="generateBadge()">🚀 Generate Badge</button>
+        </div>
+        
+        <div class="demo-section">
+            <h3>👀 Badge Preview</h3>
+            <div class="badge-preview" id="badgePreview">
+                <p>Your badge will appear here after generation</p>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h3>📋 Generated Code</h3>
+            <div class="code-output" id="codeOutput">
+                // Generated code will appear here
+            </div>
+        </div>
+        
+        <div class="info">
+            <h3>💡 How to Use</h3>
+            <ol>
+                <li><strong>HTML Website:</strong> Copy the HTML img tag and paste it into your website</li>
+                <li><strong>Markdown/README:</strong> Copy the Markdown code for GitHub, GitLab, etc.</li>
+                <li><strong>React App:</strong> Copy the React component code</li>
+                <li><strong>Direct URL:</strong> Use the badge URL directly in any img src</li>
+            </ol>
+        </div>
+        
+        <div class="info">
+            <h3>🎯 Features</h3>
+            <ul>
+                <li><strong>No Setup Required:</strong> Just generate and use - no database needed!</li>
+                <li><strong>Multiple Styles:</strong> Choose from flat, plastic, for-the-badge, or social</li>
+                <li><strong>Customizable:</strong> Change colors, labels, and add logos</li>
+                <li><strong>Multiple Formats:</strong> Get HTML, Markdown, React, or direct URL</li>
+                <li><strong>Privacy Focused:</strong> No personal data collected</li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="module">
+        // This would normally import from the npm package
+        // For demo purposes, we'll simulate the functions
+        
+        async function getVisitorCounterBadge(options) {
+            // Simulate the actual package function
+            if (!options.project) {
+                throw new Error('Project name is required');
+            }
+            
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Generate a mock badge URL (in reality, this would be your service)
+            const params = new URLSearchParams({
+                project: options.project,
+                label: options.label || 'visitors',
+                color: options.color || '0e75b6',
+                style: options.style || 'flat',
+                logo: options.logo || '',
+                logoColor: options.logoColor || 'white'
+            });
+            
+            return `https://your-visitor-counter-service.com/counter?${params.toString()}`;
+        }
+        
+        async function getVisitorCounterHTML(options) {
+            const badgeUrl = await getVisitorCounterBadge(options);
+            const altText = `${options.label || 'visitors'} count for ${options.project}`;
+            return `<img src="${badgeUrl}" alt="${altText}" />`;
+        }
+        
+        async function getVisitorCounterMarkdown(options) {
+            const badgeUrl = await getVisitorCounterBadge(options);
+            const altText = `${options.label || 'visitors'} count for ${options.project}`;
+            return `![${altText}](${badgeUrl})`;
+        }
+        
+        async function getVisitorCounterReact(options) {
+            const badgeUrl = await getVisitorCounterBadge(options);
+            const altText = `${options.label || 'visitors'} count for ${options.project}`;
+            return `import React from 'react';
+
+function VisitorCounter() {
+  return (
+    <img 
+      src="${badgeUrl}" 
+      alt="${altText}"
+      style={{ display: 'inline-block' }}
+    />
+  );
+}
+
+export default VisitorCounter;`;
+        }
+        
+        // Make functions globally available
+        window.getVisitorCounterBadge = getVisitorCounterBadge;
+        window.getVisitorCounterHTML = getVisitorCounterHTML;
+        window.getVisitorCounterMarkdown = getVisitorCounterMarkdown;
+        window.getVisitorCounterReact = getVisitorCounterReact;
+    </script>
+    
+    <script>
+        // Color picker functionality
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('badgeColor').value = this.dataset.color;
+            });
+        });
+        
+        async function generateBadge() {
+            const projectName = document.getElementById('projectName').value;
+            const badgeLabel = document.getElementById('badgeLabel').value;
+            const badgeColor = document.getElementById('badgeColor').value;
+            const badgeStyle = document.getElementById('badgeStyle').value;
+            const badgeLogo = document.getElementById('badgeLogo').value;
+            
+            if (!projectName) {
+                alert('Please enter a project name');
+                return;
+            }
+            
+            try {
+                const options = {
+                    project: projectName,
+                    label: badgeLabel,
+                    color: badgeColor,
+                    style: badgeStyle,
+                    logo: badgeLogo
+                };
+                
+                // Generate badge URL
+                const badgeUrl = await getVisitorCounterBadge(options);
+                
+                // Update badge preview
+                const preview = document.getElementById('badgePreview');
+                preview.innerHTML = `
+                    <img src="https://img.shields.io/badge/${badgeLabel}-0-${badgeColor}?style=${badgeStyle}&logo=${badgeLogo}" 
+                         alt="${badgeLabel} count for ${projectName}" />
+                    <p><small>Badge URL: ${badgeUrl}</small></p>
+                `;
+                
+                // Generate code outputs
+                const htmlCode = await getVisitorCounterHTML(options);
+                const markdownCode = await getVisitorCounterMarkdown(options);
+                const reactCode = await getVisitorCounterReact(options);
+                
+                const codeOutput = document.getElementById('codeOutput');
+                codeOutput.innerHTML = `// HTML (for websites)
+${htmlCode}
+
+// Markdown (for README files)
+${markdownCode}
+
+// React Component
+${reactCode}
+
+// Direct Badge URL
+${badgeUrl}`;
+                
+            } catch (error) {
+                alert('Error generating badge: ' + error.message);
+            }
+        }
+        
+        // Auto-generate badge on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            generateBadge();
+        });
+    </script>
+</body>
+</html>

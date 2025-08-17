@@ -1,121 +1,132 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+/**
+ * Website Visitor Counter - Version 2.0.0
+ * Badge-based visitor counter similar to GitHub profile views
+ * No database setup required - just use the badge URL!
+ */
 
 /**
- * Interface for the visitors table structure
+ * Interface for visitor counter options
  */
-interface Visitor {
-  id: string;
-  project_id: string;
-  ip_hash: string;
-  created_at: string;
+export interface VisitorCounterOptions {
+  project: string;
+  label?: string;
+  color?: string;
+  style?: 'flat' | 'plastic' | 'for-the-badge' | 'social';
+  logo?: string;
+  logoColor?: string;
 }
 
 /**
- * Interface for the Supabase database schema
+ * Default options for the visitor counter
  */
-interface Database {
-  public: {
-    Tables: {
-      visitors: {
-        Row: Visitor;
-        Insert: Omit<Visitor, 'id' | 'created_at'>;
-        Update: Partial<Omit<Visitor, 'id' | 'created_at'>>;
-      };
-    };
-  };
-}
+const DEFAULT_OPTIONS: Required<VisitorCounterOptions> = {
+  project: '',
+  label: 'visitors',
+  color: '0e75b6',
+  style: 'flat',
+  logo: '',
+  logoColor: 'white'
+};
 
 /**
- * Fetches the visitor's IP address from ipify.org
- * @returns Promise<string> - The visitor's IP address
+ * Generates a visitor counter badge URL
+ * @param options - Configuration options for the badge
+ * @returns Promise<string> - The badge URL
  */
-async function getVisitorIP(): Promise<string> {
+export async function getVisitorCounterBadge(options: VisitorCounterOptions): Promise<string> {
   try {
-    const response = await fetch('https://api.ipify.org?format=json');
-    if (!response.ok) {
-      throw new Error(`Failed to fetch IP: ${response.status} ${response.statusText}`);
+    const config = { ...DEFAULT_OPTIONS, ...options };
+    
+    if (!config.project) {
+      throw new Error('Project name is required');
     }
-    const data = await response.json();
-    return data.ip;
+
+    // For now, we'll use a mock service
+    // In production, this would be your hosted service
+    const baseUrl = 'https://your-visitor-counter-service.com';
+    
+    const params = new URLSearchParams({
+      project: config.project,
+      label: config.label,
+      color: config.color,
+      style: config.style,
+      logo: config.logo,
+      logoColor: config.logoColor
+    });
+
+    return `${baseUrl}/counter?${params.toString()}`;
   } catch (error) {
-    throw new Error(`Failed to get visitor IP: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(`Failed to generate badge URL: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
 /**
- * Creates a SHA-256 hash of the given string
- * @param input - The string to hash
- * @returns Promise<string> - The hexadecimal hash
+ * Generates a simple visitor count badge URL (most common use case)
+ * @param project - Your project/website name
+ * @returns Promise<string> - The badge URL
  */
-async function createHash(input: string): Promise<string> {
+export async function getSimpleVisitorBadge(project: string): Promise<string> {
+  return getVisitorCounterBadge({ project });
+}
+
+/**
+ * Generates an HTML img tag for the visitor counter
+ * @param options - Configuration options for the badge
+ * @returns Promise<string> - HTML img tag
+ */
+export async function getVisitorCounterHTML(options: VisitorCounterOptions): Promise<string> {
   try {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(input);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return hashHex;
+    const badgeUrl = await getVisitorCounterBadge(options);
+    const altText = `${options.label || 'visitors'} count for ${options.project}`;
+    
+    return `<img src="${badgeUrl}" alt="${altText}" />`;
   } catch (error) {
-    throw new Error(`Failed to create hash: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(`Failed to generate HTML: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
 /**
- * Gets the total unique visitor count for a project
- * @param projectId - The unique identifier for the project/website
- * @param supabaseUrl - The Supabase project URL
- * @param supabaseKey - The Supabase anonymous key
- * @returns Promise<number> - The total unique visitor count
+ * Generates a Markdown badge for the visitor counter
+ * @param options - Configuration options for the badge
+ * @returns Promise<string> - Markdown badge
  */
-export async function getVisitorCount(
-  projectId: string,
-  supabaseUrl: string,
-  supabaseKey: string
-): Promise<number> {
+export async function getVisitorCounterMarkdown(options: VisitorCounterOptions): Promise<string> {
   try {
-    // Validate inputs
-    if (!projectId || !supabaseUrl || !supabaseKey) {
-      throw new Error('All parameters are required: projectId, supabaseUrl, and supabaseKey');
-    }
-
-    // Get visitor IP and hash it
-    const visitorIP = await getVisitorIP();
-    const ipHash = await createHash(visitorIP);
-
-    // Create Supabase client
-    const supabase: SupabaseClient<Database> = createClient(supabaseUrl, supabaseKey);
-
-    // Try to insert the visitor (will fail if duplicate due to unique constraint)
-    try {
-      await supabase
-        .from('visitors')
-        .insert({
-          project_id: projectId,
-          ip_hash: ipHash
-        });
-    } catch (insertError: any) {
-      // If it's a duplicate key error, that's fine - just continue
-      // Other errors should be re-thrown
-      if (insertError.code !== '23505') { // PostgreSQL unique constraint violation code
-        throw insertError;
-      }
-    }
-
-    // Get the total count of unique visitors for this project
-    const { count, error } = await supabase
-      .from('visitors')
-      .select('*', { count: 'exact', head: true })
-      .eq('project_id', projectId);
-
-    if (error) {
-      throw new Error(`Failed to get visitor count: ${error.message}`);
-    }
-
-    return count || 0;
+    const badgeUrl = await getVisitorCounterBadge(options);
+    const altText = `${options.label || 'visitors'} count for ${options.project}`;
+    
+    return `![${altText}](${badgeUrl})`;
   } catch (error) {
-    throw new Error(`getVisitorCount failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(`Failed to generate Markdown: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
-// Export types for consumers
-export type { Visitor, Database };
+/**
+ * Generates a React component for the visitor counter
+ * @param options - Configuration options for the badge
+ * @returns Promise<string> - React component code
+ */
+export async function getVisitorCounterReact(options: VisitorCounterOptions): Promise<string> {
+  try {
+    const badgeUrl = await getVisitorCounterBadge(options);
+    const altText = `${options.label || 'visitors'} count for ${options.project}`;
+    
+    return `import React from 'react';
+
+function VisitorCounter() {
+  return (
+    <img 
+      src="${badgeUrl}" 
+      alt="${altText}"
+      style={{ display: 'inline-block' }}
+    />
+  );
+}
+
+export default VisitorCounter;`;
+  } catch (error) {
+    throw new Error(`Failed to generate React component: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+

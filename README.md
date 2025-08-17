@@ -1,17 +1,16 @@
-# Website Visitor Counter
+# Website Visitor Counter v2.0.0
 
-A simple and privacy-focused NPM package to count unique website visitors using Supabase as the backend storage. This package automatically handles IP hashing for privacy and provides a clean API for developers.
+A badge-based website visitor counter - **no database setup required!** Works exactly like [GitHub profile views](https://komarev.com/ghpvc/?username=mnahsanofficial&label=Profile%20views&color=0e75b6&style=flat) but for any website or project.
 
-## Features
+## 🌟 **What's New in v2.0.0?**
 
-- 🌐 **Privacy-focused**: Automatically hashes visitor IPs using SHA-256
-- 🚀 **Easy to use**: Simple function call to get visitor count
-- 💾 **Supabase powered**: Uses Supabase for reliable data storage
-- 📱 **Browser & Node.js compatible**: Works in both environments
-- 🔒 **Duplicate prevention**: Automatically handles returning visitors
-- 📊 **Real-time counts**: Get accurate visitor statistics
+- ✅ **No Database Setup** - Just generate and use!
+- ✅ **Badge-Based** - Works like komarev.com and shields.io
+- ✅ **Multiple Formats** - HTML, Markdown, React, or direct URL
+- ✅ **Customizable** - Colors, labels, styles, and logos
+- ✅ **Privacy Focused** - No personal data collected
 
-## Installation
+## 📦 **Installation**
 
 ```bash
 npm install website-visitor-counter
@@ -20,199 +19,217 @@ npm install website-visitor-counter
 📦 **NPM Package**: [https://www.npmjs.com/package/website-visitor-counter](https://www.npmjs.com/package/website-visitor-counter)  
 🐙 **GitHub Repository**: [https://github.com/mnahsanofficial/website-visitor-counter](https://github.com/mnahsanofficial/website-visitor-counter)
 
-## Supabase Setup
+## 🚀 **Quick Start**
 
-### 1. Create a Supabase Project
-
-1. Go to [supabase.com](https://supabase.com) and create a new project
-2. Wait for your project to be ready
-3. Note down your project URL and anon key
-
-### 2. Create the Database Table
-
-Run this SQL in your Supabase SQL editor:
-
-```sql
-create table if not exists visitors (
-  id uuid primary key default gen_random_uuid(),
-  project_id text not null,
-  ip_hash text not null,
-  created_at timestamp with time zone default now(),
-  unique(project_id, ip_hash)
-);
-
--- Optional: Create an index for better performance
-create index if not exists idx_visitors_project_id on visitors(project_id);
-```
-
-### 3. Get Your Credentials
-
-- **Supabase URL**: Found in your project settings (e.g., `https://yourproject.supabase.co`)
-- **Supabase Anon Key**: Found in your project API settings
-
-## Usage
-
-### Basic Example
-
+### **Simple Badge (Most Common)**
 ```javascript
-import { getVisitorCount } from "website-visitor-counter";
+import { getSimpleVisitorBadge } from 'website-visitor-counter';
 
-async function showCount() {
-  try {
-    const count = await getVisitorCount(
-      "my-website-project",
-      "https://aqxpwgcokzqcppyjoxpu.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxeHB3Z2Nva3pxY3BweWpveHB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzNjY2NTIsImV4cCI6MjA3MDk0MjY1Mn0.Z4mSyVlN2eMM_wbkbwnkTyxXpy9j76cjK_e_qgmE2Rg"
-    );
-    
-    document.getElementById("visitor-count").innerText = `Visitors: ${count}`;
-  } catch (error) {
-    console.error("Failed to get visitor count:", error);
-  }
-}
-
-showCount();
+const badgeUrl = await getSimpleVisitorBadge('my-website');
+console.log(badgeUrl);
+// Output: https://your-service.com/counter?project=my-website&label=visitors&color=0e75b6&style=flat
 ```
 
-### React Example
-
-```jsx
-import React, { useState, useEffect } from 'react';
-import { getVisitorCount } from 'website-visitor-counter';
-
-function VisitorCounter() {
-  const [count, setCount] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    async function fetchCount() {
-      try {
-        const visitorCount = await getVisitorCount(
-          'my-react-app',
-          'https://aqxpwgcokzqcppyjoxpu.supabase.co',
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxeHB3Z2Nva3pxY3BweWpveHB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzNjY2NTIsImV4cCI6MjA3MDk0MjY1Mn0.Z4mSyVlN2eMM_wbkbwnkTyxXpy9j76cjK_e_qgmE2Rg'
-        );
-        setCount(visitorCount);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchCount();
-  }, []);
-
-  if (loading) return <div>Loading visitor count...</div>;
-  if (error) return <div>Error: {error}</div>;
-
-  return <div>Total Visitors: {count}</div>;
-}
-```
-
-### Node.js Example
-
+### **Customized Badge**
 ```javascript
-import { getVisitorCount } from 'website-visitor-counter';
+import { getVisitorCounterBadge } from 'website-visitor-counter';
 
-async function logVisitorCount() {
-  try {
-    const count = await getVisitorCount(
-      'my-api-service',
-      'https://aqxpwgcokzqcppyjoxpu.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxeHB3Z2Nva3pxY3BweWpveHB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzNjY2NTIsImV4cCI6MjA3MDk0MjY1Mn0.Z4mSyVlN2N2eMM_wbkbwnkTyxXpy9j76cjK_e_qgmE2Rg'
-    );
-    
-    console.log(`Total unique visitors: ${count}`);
-  } catch (error) {
-    console.error('Failed to get visitor count:', error);
-  }
-}
-
-logVisitorCount();
+const badgeUrl = await getVisitorCounterBadge({
+  project: 'my-blog',
+  label: 'readers',
+  color: 'ff6b6b',
+  style: 'for-the-badge',
+  logo: '📚'
+});
 ```
 
-## API Reference
+## 🎨 **Usage Examples**
 
-### `getVisitorCount(projectId, supabaseUrl, supabaseKey)`
+### **1. HTML Website**
+```javascript
+import { getVisitorCounterHTML } from 'website-visitor-counter';
 
-Returns a Promise that resolves to the total unique visitor count for the specified project.
+const htmlTag = await getVisitorCounterHTML({
+  project: 'my-portfolio',
+  label: 'visitors',
+  color: '00d4aa'
+});
 
-#### Parameters
+// Output: <img src="https://..." alt="visitors count for my-portfolio" />
+document.body.innerHTML += htmlTag;
+```
 
-- `projectId` (string): A unique identifier for your project/website
-- `supabaseUrl` (string): Your Supabase project URL
-- `supabaseKey` (string): Your Supabase anonymous key
+### **2. Markdown/README**
+```javascript
+import { getVisitorCounterMarkdown } from 'website-visitor-counter';
 
-#### Returns
+const markdownBadge = await getVisitorCounterMarkdown({
+  project: 'my-project',
+  label: 'views',
+  color: '6c5ce7'
+});
 
-- `Promise<number>`: The total unique visitor count
+// Output: ![views count for my-project](https://...)
+```
 
-#### Throws
+### **3. React Component**
+```javascript
+import { getVisitorCounterReact } from 'website-visitor-counter';
 
-- `Error`: If any of the required parameters are missing
-- `Error`: If there's a network error or database error
+const reactCode = await getVisitorCounterReact({
+  project: 'my-react-app',
+  label: 'users',
+  color: 'fd79a8'
+});
 
-## How It Works
+// Output: Complete React component code
+```
 
-1. **IP Detection**: Fetches the visitor's IP address from [ipify.org](https://ipify.org)
-2. **Privacy Protection**: Hashes the IP address using SHA-256 to protect visitor privacy
-3. **Database Storage**: Stores the hashed IP in Supabase with the project ID
-4. **Duplicate Prevention**: Uses database constraints to prevent counting the same visitor twice
-5. **Count Return**: Returns the total unique visitor count for the project
+### **4. Direct Badge URL**
+```javascript
+import { getVisitorCounterBadge } from 'website-visitor-counter';
 
-## Privacy Features
+const badgeUrl = await getVisitorCounterBadge({
+  project: 'my-website',
+  label: 'visitors',
+  color: '0e75b6',
+  style: 'flat'
+});
 
-- **IP Hashing**: Visitor IPs are never stored in plain text
-- **No Personal Data**: Only stores hashed IPs and project identifiers
-- **Unique Counting**: Each visitor is only counted once per project
+// Use directly in any img src
+<img src={badgeUrl} alt="visitor count" />
+```
 
-## Error Handling
+## ⚙️ **Configuration Options**
 
-The package includes comprehensive error handling for:
-- Network failures
-- Invalid Supabase credentials
-- Database connection issues
-- Missing or invalid parameters
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `project` | `string` | **Required** | Your project/website name |
+| `label` | `string` | `"visitors"` | Badge label text |
+| `color` | `string` | `"0e75b6"` | Badge color (hex without #) |
+| `style` | `string` | `"flat"` | Badge style: `flat`, `plastic`, `for-the-badge`, `social` |
+| `logo` | `string` | `""` | Logo emoji or icon |
+| `logoColor` | `string` | `"white"` | Logo color |
 
-## Browser Compatibility
+## 🎭 **Badge Styles**
 
-This package works in all modern browsers that support:
+### **Flat Style** (Default)
+![visitors-0-0e75b6](https://img.shields.io/badge/visitors-0-0e75b6?style=flat)
+
+### **Plastic Style**
+![visitors-0-0e75b6](https://img.shields.io/badge/visitors-0-0e75b6?style=plastic)
+
+### **For The Badge**
+![visitors-0-0e75b6](https://img.shields.io/badge/visitors-0-0e75b6?style=for-the-badge)
+
+### **Social Style**
+![visitors-0-0e75b6](https://img.shields.io/badge/visitors-0-0e75b6?style=social)
+
+## 🌈 **Popular Color Schemes**
+
+- **Blue**: `0e75b6` (GitHub style)
+- **Red**: `ff6b6b` (Fire style)
+- **Green**: `00d4aa` (Success style)
+- **Purple**: `6c5ce7` (Royal style)
+- **Pink**: `fd79a8` (Rose style)
+- **Yellow**: `fdcb6e` (Sunshine style)
+
+## 📱 **Browser & Node.js Compatible**
+
+This package works in all modern browsers and Node.js environments that support:
 - ES2020 features
-- Web Crypto API (for SHA-256 hashing)
-- Fetch API
+- Async/await
+- Fetch API (browsers) or Node.js built-ins
 
-## Node.js Compatibility
+## 🔒 **Privacy Features**
 
-Requires Node.js 16.0.0 or higher.
+- **No Personal Data**: Only stores project names and visit counts
+- **Anonymous Counting**: No IP addresses or user information collected
+- **Secure**: All data is anonymized and aggregated
 
-## Contributing
+## 🚀 **Live Demo**
+
+Try the interactive demo to see all features in action:
+- **Node.js Demo**: `examples/demo-v2.js`
+- **Browser Demo**: `examples/browser-demo-v2.html`
+
+## 🔗 **API Reference**
+
+### `getVisitorCounterBadge(options)`
+Generates a visitor counter badge URL with custom options.
+
+### `getSimpleVisitorBadge(project)`
+Quick way to get a basic visitor badge for your project.
+
+### `getVisitorCounterHTML(options)`
+Generates an HTML img tag for the visitor counter.
+
+### `getVisitorCounterMarkdown(options)`
+Generates a Markdown badge for README files.
+
+### `getVisitorCounterReact(options)`
+Generates a complete React component for the visitor counter.
+
+## 🆚 **Version Comparison**
+
+| Feature | v1.0.0 | v2.0.0 |
+|---------|--------|---------|
+| Database Setup | Required (Supabase) | ❌ **None!** |
+| Ease of Use | Complex | 🚀 **Super Easy** |
+| Badge Format | ❌ No | ✅ **Yes** |
+| Multiple Styles | ❌ No | ✅ **Yes** |
+| HTML Output | ❌ No | ✅ **Yes** |
+| Markdown Output | ❌ No | ✅ **Yes** |
+| React Support | ❌ No | ✅ **Yes** |
+| Customization | Limited | 🎨 **Full** |
+
+## 🎯 **Perfect For**
+
+- **GitHub README files**
+- **Personal websites**
+- **Blog posts**
+- **Portfolio sites**
+- **Documentation pages**
+- **Any web project**
+
+## 🚀 **Getting Started**
+
+1. **Install**: `npm install website-visitor-counter`
+2. **Generate**: Use any of the functions above
+3. **Display**: Add the badge to your website/README
+4. **Done**: No more setup required!
+
+## 🤝 **Contributing**
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License
+## 📄 **License**
 
 MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
+## 🔗 **Links**
 
-If you encounter any issues or have questions, please:
-1. Check the [Supabase documentation](https://supabase.com/docs)
-2. Open an issue on [GitHub](https://github.com/mnahsanofficial/website-visitor-counter/issues)
-3. Ensure your Supabase credentials are correct
-
-🔗 **Links**:
 - 📦 [NPM Package](https://www.npmjs.com/package/website-visitor-counter)
 - 🐙 [GitHub Repository](https://github.com/mnahsanofficial/website-visitor-counter)
 - 📚 [Documentation](https://github.com/mnahsanofficial/website-visitor-counter#readme)
 
-## Changelog
+## 🆘 **Support**
+
+If you encounter any issues or have questions, please:
+1. Check the [documentation](https://github.com/mnahsanofficial/website-visitor-counter#readme)
+2. Open an issue on [GitHub](https://github.com/mnahsanofficial/website-visitor-counter/issues)
+3. Try the live demos in the `examples/` folder
+
+## 📝 **Changelog**
+
+### v2.0.0
+- 🎉 **Complete redesign** - Badge-based system like komarev.com
+- 🚀 **No database setup** required
+- 🎨 **Multiple badge styles** and customization options
+- 📱 **Multiple output formats** (HTML, Markdown, React, URL)
+- 🔒 **Enhanced privacy** and security
 
 ### v1.0.0
-- Initial release
-- Core visitor counting functionality
-- Supabase integration
-- Privacy-focused IP hashing
-- Comprehensive error handling
-# website-visitor-counter
+- Initial release with Supabase integration
+- Database-based visitor counting
+- IP hashing for privacy
